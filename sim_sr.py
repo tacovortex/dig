@@ -1,12 +1,13 @@
 import graph as gr
 import logic_gates as gates
+import simulator as sim
 
 if __name__ == "__main__":
-    nor1 = gates.Nor()
-    nor2 = gates.Nor()
+    nor1 = gates.Nor("q0")
+    nor2 = gates.Nor("q")
 
-    s = gates.Stimulus(True)
-    r = gates.Stimulus(False)
+    s = gates.StimulusVector([0, 1, 0, 1], "sin")
+    r = gates.StimulusVector([0, 0, 1, 1], "rin")
 
     graph = gr.Graph()
 
@@ -15,28 +16,31 @@ if __name__ == "__main__":
     graph.add_edge(gr.Edge(nor1, nor2))
     graph.add_edge(gr.Edge(r, nor2))
 
-    graph.update()
+    sim_sr = sim.Simulator(graph, [s, r, nor1, nor2])
+    sim_sr.simulate()
 
-    print("s = f, r = t")
+    # graph.update()
 
-    s.val = False
-    r.val = False
-
-    graph.update()
-    print("s = f, r = f")
-
-    s.val = False
-    r.val = True
-
-    graph.update()
-    print("s = f, r = t")
-
-    # invalid
-    s.val = True
-    r.val = True
-
-    graph.update()
-    print("s = t, r = t")
+    # print("s = f, r = t")
+    #
+    # s.val = False
+    # r.val = False
+    #
+    # graph.update()
+    # print("s = f, r = f")
+    #
+    # s.val = False
+    # r.val = True
+    #
+    # graph.update()
+    # print("s = f, r = t")
+    #
+    # # invalid
+    # s.val = True
+    # r.val = True
+    #
+    # graph.update()
+    # print("s = t, r = t")
 
 
 
